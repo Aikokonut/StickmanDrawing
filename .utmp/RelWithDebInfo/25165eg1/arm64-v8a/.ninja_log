@@ -1,0 +1,12 @@
+# ninja log v5
+114	1514	8019927180531342	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	e65ed42139462220
+1516	3507	8019927199551586	D:/Project/StickmanDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/25165eg1/obj/arm64-v8a/libswappywrapper.so	59c1fffbefe2075d
+55	6418	8019927229656757	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	6fd8bbf562f06d5e
+31	6431	8019927229945976	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	d49cc3aff1317880
+1	6504	8019927230913725	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	3ef02e7035ea0f93
+64	6603	8019927231853183	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	6930403eaaea626e
+13	6736	8019927233419471	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	6dc05a3b1b90af61
+40	7237	8019927238523309	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	9bb927728305e28b
+22	7570	8019927241812918	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	bb5f4bf51ae02662
+82	7651	8019927242707728	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	562ad3a44e23ee4e
+7652	7789	8019927244118226	D:/Project/StickmanDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/25165eg1/obj/arm64-v8a/libgame.so	a7f93b83e8c238b4
