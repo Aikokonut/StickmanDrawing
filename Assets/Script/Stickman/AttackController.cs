@@ -14,10 +14,16 @@ namespace Stickman
             int my = Owner.attack;
             int his = enemy.Attack;
 
-            if (my >= his)
+            if (my > his)
             {
                 Owner.AddAttack(his);
                 Debug.Log($"[Combat] Player({my}) WIN Enemy({his})  → attack = {Owner.attack}");
+                enemy.Die();
+            }
+            else if (my == his)
+            {
+                Debug.Log($"[Combat] Player({my}) TIE Enemy({his}) — both lose");
+                Owner.Die();
                 enemy.Die();
             }
             else

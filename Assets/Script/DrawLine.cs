@@ -13,6 +13,7 @@ namespace Stickman
         [Header("Drawing")]
         [SerializeField] float minPointDistance = 0.1f;
         [SerializeField] float lineWidth = 0.1f;
+        [SerializeField] float startGrabRadius = 1.0f;
 
         [Header("References")]
         [SerializeField] LineRenderer lineRenderer;
@@ -59,6 +60,16 @@ namespace Stickman
 
         void Begin(Vector2 world)
         {
+            if (player != null)
+            {
+                Vector2 playerPos = player.position;
+                if ((world - playerPos).sqrMagnitude > startGrabRadius * startGrabRadius)
+                {
+                    isDrawing = false;
+                    return;
+                }
+            }
+
             Clear();
             isDrawing = true;
             lastPointer = world;

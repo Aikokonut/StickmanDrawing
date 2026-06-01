@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Stickman
 {
-    public class BuffController : MonoBehaviour
+    public class BuffController : TargetEnityBase
     {
         public int amount = 20;
         public Text label;

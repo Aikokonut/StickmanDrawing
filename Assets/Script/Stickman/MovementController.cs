@@ -13,9 +13,9 @@ namespace Stickman
 
         [HideInInspector] public StickmanController Owner;
 
-        readonly List<Vector2> path = new List<Vector2>(256);
-        readonly HashSet<EnemyController> handledEnemies = new HashSet<EnemyController>();
-        readonly HashSet<BuffController> handledBuffs = new HashSet<BuffController>();
+        List<Vector2> path = new List<Vector2>(256);
+        HashSet<EnemyController> handledEnemies = new HashSet<EnemyController>();
+        HashSet<BuffController> handledBuffs = new HashSet<BuffController>();
 
         int index;
         float speed;
@@ -103,7 +103,7 @@ namespace Stickman
             if (index >= path.Count)
             {
                 IsMoving = false;
-                var cb = onCompleted;
+                Action cb = onCompleted;
                 onCompleted = null;
                 path.Clear();
                 handledEnemies.Clear();
@@ -114,40 +114,48 @@ namespace Stickman
 
         bool CheckEncounter(Vector2 pos)
         {
-            var gm = GameplayManager.Instance;
-            if (gm == null) return false;
-
-            if (gm.Buffs != null)
+            if (GameplayManager.Instance.Buffs != null)
             {
-                for (int i = 0; i < gm.Buffs.Count; i++)
+                for (int i = 0; i < GameplayManager.Instance.Buffs.Count; i++)
                 {
-                    var b = gm.Buffs[i];
+                    BuffController b = GameplayManager.Instance.Buffs[i];
                     if (b == null || b.Taken || handledBuffs.Contains(b)) continue;
-                    if (!gm.IsHit(pos, b.gameObject)) continue;
+                    if (!GameplayManager.Instance.IsHit(pos, b.gameObject)) continue;
 
                     handledBuffs.Add(b);
                     pauseTimer = stopDuration;
                     b.Collect(Owner);
+                    if (IsEndpointTarget(b.gameObject)) index = path.Count;
                     return true;
                 }
             }
 
-            if (gm.Enemies != null && Owner != null && Owner.AttackController != null)
+            if (GameplayManager.Instance.Enemies != null && Owner != null && Owner.AttackController != null)
             {
-                for (int i = 0; i < gm.Enemies.Count; i++)
+                for (int i = 0; i < GameplayManager.Instance.Enemies.Count; i++)
                 {
-                    var e = gm.Enemies[i];
+                    EnemyController e = GameplayManager.Instance.Enemies[i];
                     if (e == null || !e.IsAlive || handledEnemies.Contains(e)) continue;
-                    if (!gm.IsHit(pos, e.gameObject)) continue;
+                    if (!GameplayManager.Instance.IsHit(pos, e.gameObject)) continue;
 
                     handledEnemies.Add(e);
                     pauseTimer = stopDuration;
                     Owner.AttackController.Fight(e);
+                    if (Owner != null && Owner.IsAlive && IsEndpointTarget(e.gameObject))
+                        index = path.Count;
                     return true;
                 }
             }
 
             return false;
+        }
+
+
+        bool IsEndpointTarget(GameObject obj)
+        {
+            if (obj == null || path.Count == 0) return false;
+
+            return GameplayManager.Instance != null && GameplayManager.Instance.IsHit(path[path.Count - 1], obj);
         }
 
         void SetPos(Vector2 p)

@@ -10,14 +10,12 @@ namespace Stickman
         [Header("Combat")]
         public int attack = 20;
         public Text attackLabel;
-
-        [Header("Siblings (assign in Inspector)")]
         public AttackController AttackController;
         public MovementController MovementController;
         public DrawLine DrawLine;
 
         public event Action<StickmanController> OnDied;
-        public bool IsAlive { get; private set; } = true;
+        public bool IsAlive = true;
 
         void Awake()
         {

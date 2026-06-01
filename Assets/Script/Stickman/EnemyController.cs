@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 namespace Stickman
 {
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : TargetEnityBase
     {
         public int Attack = 20;
-        public Text attackLabel;
+        public Text AttackLabel;
 
         public event Action<EnemyController> OnDied;
         public bool IsAlive { get; private set; } = true;
@@ -27,7 +27,7 @@ namespace Stickman
 
         void RefreshLabel()
         {
-            if (attackLabel != null) attackLabel.text = Attack.ToString();
+            if (AttackLabel != null) AttackLabel.text = Attack.ToString();
         }
     }
 }

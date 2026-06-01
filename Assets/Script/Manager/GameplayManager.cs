@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Stickman
 {
     public class GameplayManager : MonoBehaviour
     {
-        public static GameplayManager Instance { get; private set; }
+        public static GameplayManager Instance ;
 
         [Header("References")]
         public StickmanController player;
@@ -43,7 +44,7 @@ namespace Stickman
             if (player != null)
             {
                 player.OnDied += OnPlayerDied;
-                if (player.DrawLine != null) player.DrawLine.PathFinalizer = TrimPath;
+                if (player.DrawLine != null) player.DrawLine.PathFinalizer = FinalizePath;
             }
 
             if (winPanel != null) winPanel.SetActive(false);
@@ -52,23 +53,18 @@ namespace Stickman
             if (aliveEnemies == 0) Win();
         }
 
-        readonly HashSet<int> _seenTargets = new HashSet<int>();
-
-        int TrimPath(IReadOnlyList<Vector2> path)
+        int FinalizePath(IReadOnlyList<Vector2> path)
         {
-            _seenTargets.Clear();
-            int lastNewEntry = 0;
-            int prevIdx = -1;
+            if (path.Count < 2) return 0;
+
+            int endpointTarget = FindTargetIndexAt(path[path.Count - 1]);
+            if (endpointTarget < 0) return 0;
 
             for (int i = 1; i < path.Count; i++)
-            {
-                int idx = FindTargetIndexAt(path[i]);
-                if (idx >= 0 && idx != prevIdx && _seenTargets.Add(idx))
-                    lastNewEntry = i;
-                prevIdx = idx;
-            }
+                if (FindTargetIndexAt(path[i]) == endpointTarget)
+                    return i + 1;
 
-            return lastNewEntry == 0 ? 0 : lastNewEntry + 1;
+            return 0; 
         }
 
         public bool IsHit(Vector2 pos, GameObject target)
@@ -127,6 +123,7 @@ namespace Stickman
             if (ended) return;
             ended = true;
             Debug.Log("[Game] LOOSE — player is dead");
+            SceneManager.LoadScene("Gameplay");
             if (losePanel != null) losePanel.SetActive(true);
         }
     }
